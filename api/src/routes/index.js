@@ -1,15 +1,14 @@
 // Libraries/Frameworks
 const { Router } = require('express');
 // MiddleWares
-const dietMiddleware = require('../middlewares/diet.js');
-const recipeMiddleware = require('../middlewares/recipe.js');
+const dietsMiddleware = require('../middlewares/diets.js');
+const recipesMiddleware = require('../middlewares/recipes.js');
 
 // Our server
 const router = Router();
 
 // Routes directing to Middlewares
-router.use('/diet', dietMiddleware);
-router.use('/recipe', recipeMiddleware);
-
+router.use('/diets', dietsMiddleware);
+router.use('/recipes', recipesMiddleware);
 
 module.exports = router;

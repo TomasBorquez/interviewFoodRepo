@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("diet", {
+  sequelize.define("Diet", {
     diet_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -14,8 +14,3 @@ module.exports = (sequelize) => {
     },
   });
 };
-
-
-// [x] Tipo de dieta con las siguientes propiedades:
-// ID
-// Nombre
