@@ -5,18 +5,18 @@ const { Recipe, Diet } = require('../db');
 const axios = require('axios');
 const router = Router();
 
-
-// Requests get
+// (--------{-------------[-({>>Requests get<<})-]-------------}-------)
+// ----- {Request get, gets the information about a recipe by id} ------
 router.get('/:idRecipe', async (req, res) => {
   const { idRecipe } = req.params;
   try {
     if (idRecipe) {
-      // const response = await Recipe.findOne({ where: { recipe_id: idRecipe } });
       const response = await Recipe.findByPk(idRecipe, {
         include: {
           model: Diet,
         },
       });
+      // const response = await Recipe.findOne({ where: { recipe_id: idRecipe } });
       if (!response) res.status(404).send('Such recipe does not exist');
       else res.status(201).send(response);
     } else {
@@ -26,16 +26,25 @@ router.get('/:idRecipe', async (req, res) => {
     res.status(404).send(err);
   }
 });
-
+// --------------- {Request get, gets all the recipes} ---------------
 router.get('/', async (req, res) => {
   const { name } = req.query;
   try {
     if (name) {
-      const response = await Recipe.findAll({ where: { name } });
+      const response = await Recipe.findAll({
+        where: { name },
+        include: {
+          model: Diet,
+        },
+      });
       if (!response.length) res.status(404).send('No recipes in the data base');
       else res.status(201).send(response);
     } else {
-      const response = await Recipe.findAll();
+      const response = await Recipe.findAll({
+        include: {
+          model: Diet,
+        },
+      });
       if (!response.length) res.status(404).send('No recipes in the data base');
       else res.status(201).send(response);
     }
@@ -43,8 +52,11 @@ router.get('/', async (req, res) => {
     res.status(404).send(error);
   }
 });
+// -----------------------------------------------------------------------
 
-// Requests post
+
+// (--------{--------------[-({>>Requests post<<})-]-------------}-------)
+// ------------ {Request post, adds a recipe on the datebase} ------------
 router.post('/', async (req, res) => {
   const { name, image, summary, health_score, steps, diets } = req.body;
   if (name && image && summary) {
@@ -56,7 +68,7 @@ router.post('/', async (req, res) => {
         health_score,
         steps,
       });
-      await axios.get("http://localhost:3001/diets");
+      await axios.get('http://localhost:3001/diets');
       if (diets) {
         await recipe.addDiets(diets);
         const united = await recipe.getDiets();
@@ -69,5 +81,6 @@ router.post('/', async (req, res) => {
     res.status(404).send(`There was an error`);
   }
 });
+// -----------------------------------------------------------------------
 
 module.exports = router;

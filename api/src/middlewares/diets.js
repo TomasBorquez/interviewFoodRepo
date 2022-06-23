@@ -24,10 +24,10 @@ router.get('/', async (req, res) => {
     if (!response.length) {
       Diet.bulkCreate(defaultDiets);
       const response = await Diet.findAll();
-      console.log(">> Had to create them");
+      // console.log(">> Had to create them");
       res.status(201).send(response);
     } else {
-      console.log(">> They were already here");
+      // console.log(">> They were already here");
       res.status(201).send(response);
     }
   } catch (err) {
