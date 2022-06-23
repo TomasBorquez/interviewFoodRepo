@@ -5,6 +5,7 @@ const { Recipe, Diet } = require('../db');
 const axios = require('axios');
 const router = Router();
 
+
 // Requests get
 router.get('/:idRecipe', async (req, res) => {
   const { idRecipe } = req.params;
