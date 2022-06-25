@@ -14,3 +14,7 @@ module.exports = (sequelize) => {
     },
   });
 };
+
+// [x] Tipo de dieta con las siguientes propiedades:
+// ID
+// Nombre

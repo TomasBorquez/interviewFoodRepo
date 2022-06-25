@@ -3,7 +3,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 // Our code
 import Welcome from '../components/Welcome/Welcome.jsx';
-import './App.css';
+import './App.sass';
 
 function App() {
   return (
