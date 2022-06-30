@@ -1,6 +1,6 @@
 const initialState = {
   recipes: [],
-  request: true
+  request: true,
 };
 
 const rootReducer = (state = initialState, action) => {
