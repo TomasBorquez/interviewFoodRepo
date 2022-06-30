@@ -1,5 +1,6 @@
 // Our modules
 const { Router } = require('express');
+const theboys = require('./test.js')
 const { APIKEY } = process.env;
 // Libraries and such
 const axios = require('axios');
@@ -24,6 +25,10 @@ router.get('/getall', async (req, res) => {
       res.status(404).send(err);
     });
   }
+});
+// --------- {Request get, merges both database and api data} ----------
+router.get('/test', async (req, res) => {
+  res.send(theboys)
 });
 // -------------------- {Requests get, finds by id} --------------------
 router.get('/:id', async (req, res) => {

@@ -1,33 +1,42 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from 'react'; 
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { NavLink } from 'react-router-dom';
+
 import * as actions from '../../state/actions/index.js';
 import Cards from '../Cards/Cards.jsx';
 import './Home.sass';
 
+var counter = 0
+
 function Home() {
-  // console.log('step 1');
   const dispatch = useDispatch();
-  // console.log('step 2');
-  const { updateRecipes } = bindActionCreators(actions, dispatch);
-  // console.log('step 3');
-  updateRecipes()
-  const response = useSelector(state => state.recipes);
-  const recipes = response.recipes
-  // console.log(recipes)
-  // console.log('step 4');
-  // useEffect(() => {
-  //   console.log('entered here');
-  //   function fetchData() {
-  //     updateRecipes();
-  //   }
-  //   fetchData();
-  // }, [recipes, updateRecipes]);
+  const { updateRecipes, updateState } = bindActionCreators(actions, dispatch);
+  const recipes = useSelector(state => state.recipes.recipes) 
+  const request = useSelector(state => state.recipes.request) 
+  useEffect(() => {
+    console.log(`I was here: ${counter}`)
+    counter++
+    console.log(request);
+    if (request) {
+      async function serverRequest(){
+        try {
+          const response = await fetch('http://localhost:3001/filter/test');
+          const json = await response.json();
+          updateRecipes(json);
+          updateState();
+        } catch (err) {
+          console.log("This is the error: " + err);
+          updateState();
+        }
+      }
+      serverRequest()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [request]);
   return (
     <div>
-      <Cards recipes={recipes}/>
+      <Cards recipes={recipes} />
     </div>
   );
 }

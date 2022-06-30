@@ -6,7 +6,7 @@ import Card from '../Card/Card.jsx';
 function Cards({ recipes }) {
   // console.log("-------");
   // console.log(recipes[0].id)
-  // console.log(recipes[0].tittle)
+  // console.log(recipes[0].title)
   // console.log(recipes[0].image)
   // console.log(recipes[0].summary)
   // console.log(recipes[0].health_score)
@@ -20,7 +20,7 @@ function Cards({ recipes }) {
           <Card
             key={recipe.id}
             id={recipe.id}
-            tittle={recipe.tittle}
+            title={recipe.title}
             image={recipe.image}
             summary={recipe.summary}
             health_score={recipe.health_score}
@@ -34,3 +34,12 @@ function Cards({ recipes }) {
 }
 
 export default Cards;
+
+// key={recipe.id}
+// id={recipe.id}
+// tittle={recipe.title}
+// image={recipe.image}
+// summary={recipe.summary}
+// health_score={recipe.health_score}
+// steps={recipe.steps}
+// diets={recipe.diets}
