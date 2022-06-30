@@ -1,36 +1,50 @@
-import React from 'react';
-// import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import './Cards.sass';
 import Card from '../Card/Card.jsx';
 
-function Cards({ recipes }) {
-  // console.log("-------");
-  // console.log(recipes[0].id)
-  // console.log(recipes[0].title)
-  // console.log(recipes[0].image)
-  // console.log(recipes[0].summary)
-  // console.log(recipes[0].health_score)
-  // console.log(recipes[0].steps)
-  // console.log(recipes[0].diets)
-  // console.log("-------");
-  return (
-    <React.Fragment>
-      <ol id='cards'>
-        {recipes.map(recipe => (
-          <Card
-            key={recipe.id}
-            id={recipe.id}
-            title={recipe.title}
-            image={recipe.image}
-            summary={recipe.summary}
-            health_score={recipe.health_score}
-            steps={recipe.steps}
-            diets={recipe.diets}
-          />
-        ))}
-      </ol>
-  </React.Fragment>
-  );
+function Cards({ recipes, loading, cardsPerPage }) {
+  const [currentRecipes, setCurrentRecipes] = useState([]);
+  const currentPage = useSelector(state => state.recipes.currentPage);
+  useEffect(() => {
+    const indexOfLastCard = currentPage * cardsPerPage;
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+    // console.log(currentPage)
+    // console.log('This is the last card: ' + indexOfLastCard);
+    // console.log('This is the first card: ' + indexOfFirstCard);
+    setCurrentRecipes(recipes.slice(indexOfFirstCard, indexOfLastCard))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipes, currentPage]);
+
+  // console.log(recipes)
+  if (loading) {
+    return (
+      <div>
+        <h1>Loading</h1>
+      </div>
+    );
+  }
+  else {
+    return (
+      <React.Fragment>
+        <ol id="cards">
+          {currentRecipes.map(recipe => (
+            <Card
+              key={recipe.id}
+              id={recipe.id}
+              title={recipe.title}
+              image={recipe.image}
+              summary={recipe.summary}
+              health_score={recipe.health_score}
+              steps={recipe.steps}
+              diets={recipe.diets}
+            />
+          ))}
+        </ol>
+      </React.Fragment>
+    );
+  }
 }
 
 export default Cards;
