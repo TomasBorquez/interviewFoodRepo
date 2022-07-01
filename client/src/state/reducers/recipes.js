@@ -14,6 +14,11 @@ const rootReducer = (state = initialState, action) => {
         fRecipes: action.payload,
         onFilter: state.onFilter + 1,
       };
+    case 'resetOrFilBy':
+      return {
+        ...state,
+        fRecipes: [...state.recipes],
+      };
     case 'updateRecipes':
       return {
         ...state,

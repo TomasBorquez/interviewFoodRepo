@@ -10,10 +10,12 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
   // React
   const [filter, setFilter] = useState("default");
   const [order, setOrder] = useState("default");
+  const [inputData, setInputData] = useState(0);
   const [pageNumbers, setPageNumbers] = useState([]);
+  const [refresh, setRefresh] = useState(0);
   // Redux
   const dispatch = useDispatch();
-  const { updateCurrentPage, orFilBy } = bindActionCreators(actions, dispatch);
+  const { updateCurrentPage, orFilBy, resetOrFilBy } = bindActionCreators(actions, dispatch);
   const currentPage = useSelector(state => state.recipes.currentPage);
   useEffect(() => {
     const pageNumbers = [];
@@ -21,21 +23,27 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
       pageNumbers.push(i);
     }
     setPageNumbers(pageNumbers);
-    orFilBy(filter, order)
+    if (filter === "default" && order === "default" && inputData === "default") resetOrFilBy()
+    else orFilBy(filter, order, inputData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalPosts, filter, order]);
-
+  }, [totalPosts, filter, order, refresh]);
+  const handleSubmit = () => setRefresh(refresh + 1)
+  const getData = e => setInputData(e.target.value);
   const handleChangeOrder = e => setOrder(e.target.value);
   const handleChangeFilter = e => setFilter(e.target.value);
   const handleReset = () => {
     setFilter("default")
     setOrder("default")
+    setInputData(0)
+    setRefresh(refresh + 1)
   }
   if (loading) {
     return <div></div>;
   } else {
     return (
       <div className="PageNav">
+      <input type="text" value={inputData} onChange={e => getData(e)}></input>
+      <button onClick={() => handleSubmit()}>Search</button>
         <form>
           <select id="orders" onChange={e => handleChangeOrder(e)} value={order}>
             <option value="default">Order by</option>
@@ -62,34 +70,27 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
         </form>
         <button onClick={() => handleReset()}>Reset</button>
         <p>{currentPage}</p>
-        <button
-          onClick={() =>
+        <button onClick={() =>
             currentPage > 1
               ? updateCurrentPage('prev')
               : console.log('Que estas haciendo? 🤔')
-          }
-        >
+          }>
           Previous
         </button>
         <ul className="pagination">
           {pageNumbers.map(number => {
             return (
               <li key={number} className="page-item">
-                <button onClick={() => updateCurrentPage(number)}>
-                  {' '}
-                  {number}{' '}
-                </button>
+                <button onClick={() => updateCurrentPage(number)}> {number} </button>
               </li>
             );
           })}
         </ul>
-        <button
-          onClick={() =>
+        <button onClick={() =>
             currentPage !== Math.ceil(totalPosts / cardsPerPage)
               ? updateCurrentPage('next')
               : console.log('Que estas haciendo? 🤔')
-          }
-        >
+          }>
           Next
         </button>
       </div>

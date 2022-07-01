@@ -21,7 +21,7 @@ export function updateCurrentPage(payload) {
   };
 }
 
-export function orFilBy(filter, sort) {
+export function orFilBy(filter, sort, inputFilter) {
   var recipes = store.getState().recipes.recipes, sortedArr;
   if (sort === 'A-Z') sortedArr = recipes.sort((a, b) => a.title.localeCompare(b.title));
   else if (sort === 'Z-A') sortedArr = recipes.sort((a, b) => b.title.localeCompare(a.title))
@@ -43,6 +43,7 @@ export function orFilBy(filter, sort) {
     else if (filter === 'Vegetarian') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase())) //??
     else if (filter === 'Whole30') sortedArr = sortedArr.filter(recipe => recipe.diets.includes('whole 30'))
     else if (filter === 'Dairy Free') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
+    if (inputFilter) sortedArr = sortedArr.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
   } else {
     if (filter === 'Gluten Free') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
     else if (filter === 'Ovo-Vegetarian') sortedArr = recipes.filter(recipe => recipe.diets.includes('lacto ovo vegetarian'))
@@ -59,10 +60,17 @@ export function orFilBy(filter, sort) {
     else if (filter === 'Vegetarian') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase())) //??
     else if (filter === 'Whole30') sortedArr = recipes.filter(recipe => recipe.diets.includes('whole 30'))
     else if (filter === 'Dairy Free') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
+    if (inputFilter) sortedArr = recipes.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
   }
   return function (dispatch) {
     if (sortedArr) {
       dispatch({ type: 'fakeRecipes', payload: sortedArr});
     }
+  };
+}
+
+export function resetOrFilBy() {
+  return function (dispatch) {
+    dispatch({ type: 'resetOrFilBy' });
   };
 }
