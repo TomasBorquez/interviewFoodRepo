@@ -20,7 +20,7 @@ function Home() {
   const { updateRecipes, updateState } = bindActionCreators(actions, dispatch);
   const fRecipes = useSelector(state => state.recipes.fRecipes);
   const request = useSelector(state => state.recipes.request);
-  const reload = useSelector(state => state.recipes.reload);
+  const onFilter = useSelector(state => state.recipes.onFilter);
   useEffect(() => {
     // console.log(`I was here: ${counter}`);
     setCounter(counter + 1);
@@ -41,7 +41,7 @@ function Home() {
       serverRequest();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [request]);
+  }, [onFilter, request]);
   return (
     <div>
       <PageNav loading={loading} cardsPerPage={cardsPerPage} totalPosts={fRecipes.length ? fRecipes.length : 0}/>

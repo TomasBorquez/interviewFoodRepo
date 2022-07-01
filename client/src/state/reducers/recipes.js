@@ -1,18 +1,18 @@
 const initialState = {
+  onFilter: 0,
   recipes: [],
   fRecipes: [],
   request: true,
-  reload: true,
   currentPage: 1,
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'fakeRecipes':
-      console.log(action.payload);
       return {
         ...state,
         fRecipes: action.payload,
+        onFilter: state.onFilter + 1,
       };
     case 'updateRecipes':
       return {

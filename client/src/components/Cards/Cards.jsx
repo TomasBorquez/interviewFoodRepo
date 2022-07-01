@@ -7,29 +7,26 @@ import Card from '../Card/Card.jsx';
 function Cards({ recipes, loading, cardsPerPage }) {
   const [currentRecipes, setCurrentRecipes] = useState([]);
   const currentPage = useSelector(state => state.recipes.currentPage);
+  const onFilter = useSelector(state => state.recipes.onFilter);
   useEffect(() => {
     const indexOfLastCard = currentPage * cardsPerPage;
     const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-    // console.log(currentPage)
-    // console.log('This is the last card: ' + indexOfLastCard);
-    // console.log('This is the first card: ' + indexOfFirstCard);
-    setCurrentRecipes(recipes.slice(indexOfFirstCard, indexOfLastCard))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipes, currentPage]);
-
-  // console.log(recipes)
+    setCurrentRecipes(recipes.slice(indexOfFirstCard, indexOfLastCard));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipes, currentPage, onFilter]);
+  console.log(recipes)
   if (loading) {
     return (
       <div>
         <h1>Loading</h1>
       </div>
     );
-  }
-  else {
+  } else {
     return (
       <React.Fragment>
         <ol id="cards">
-          {currentRecipes.map(recipe => (
+          {currentRecipes.map(recipe => {
+            return (
             <Card
               key={recipe.id}
               id={recipe.id}
@@ -40,7 +37,7 @@ function Cards({ recipes, loading, cardsPerPage }) {
               steps={recipe.steps}
               diets={recipe.diets}
             />
-          ))}
+          )})}
         </ol>
       </React.Fragment>
     );

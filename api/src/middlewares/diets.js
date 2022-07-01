@@ -3,18 +3,18 @@ const { Diet } = require('../db');
 const router = Router();
 
 const defaultDiets = [
-  { name: 'Gluten Free' },
-  { name: 'Ovo-Vegetarian' },
-  { name: 'Primal' },
-  { name: 'Ketogenic' },
-  { name: 'Vegan' },
-  { name: 'Dairy Free' },
-  { name: 'Vegetarian' },
-  { name: 'Pescetarian' },
-  { name: 'Low FOODMAP' },
-  { name: 'Lacto-Vegetarian' },
-  { name: 'Paleo' },
-  { name: 'Whole30' },
+  { name: 'gluten free' },
+  { name: 'ovo vegetarian' },
+  { name: 'primal' },
+  { name: 'ketogenic' },
+  { name: 'vegan' },
+  { name: 'dairy free' },
+  { name: 'vegetarian' },
+  { name: 'pescetarian' },
+  { name: 'low foodmap' },
+  { name: 'lacto vegetarian' },
+  { name: 'paleo' },
+  { name: 'whole 30' },
 ];
 
 // Requests get
@@ -40,4 +40,3 @@ module.exports = router;
 // [x] GET /diets:
 // Obtener todos los tipos de dieta posibles
 // En una primera instancia, cuando no exista ninguno, deberán precargar la base de datos con los tipos de datos indicados por spoonacular acá
-// Testing

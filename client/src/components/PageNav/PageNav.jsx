@@ -37,15 +37,15 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
     return (
       <div className="PageNav">
         <form>
-          <select id="orders" onChange={e => handleChangeOrder(e)} value={filter}>
-            <option value="default">Filter by</option>
+          <select id="orders" onChange={e => handleChangeOrder(e)} value={order}>
+            <option value="default">Order by</option>
             <option value="A-Z">A-Z</option>
             <option value="Z-A">Z-A</option>
             <option value="H">Highest rating</option>
             <option value="L">Lowest rating</option>
           </select>
-          <select id="filters" onChange={e => handleChangeFilter(e)} value={order}>
-            <option value="default">Order type</option>
+          <select id="filters" onChange={e => handleChangeFilter(e)} value={filter}>
+            <option value="default">Filter type</option>
             <option value="Gluten Free">Gluten Free</option>
             <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
             <option value="Primal">Primal</option>
