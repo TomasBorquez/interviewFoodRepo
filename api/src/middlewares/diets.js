@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
       res.status(201).send(response);
     }
   } catch (err) {
-    res.status(404).send(error);
+    res.status(404).send(err);
   }
 });
 

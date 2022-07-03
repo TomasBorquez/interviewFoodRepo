@@ -55,16 +55,17 @@ router.get('/', async (req, res) => {
 
 
 // (--------{--------------[-({>>Requests post<<})-]-------------}-------)
-// ------------ {Request post, adds a recipe on the datebase} ------------
+// ------------ {Request post, adds a recipe on the database} ------------
 router.post('/', async (req, res) => {
-  const { tittle, image, summary, health_score, steps, diets } = req.body;
-  if (tittle && image && summary) {
+  const { title, image, summary, healthScore, steps, diets } = req.body;
+  // console.log(title, image, summary, healthScore, steps, diets)
+  if (title && image && summary) {
     try {
       const recipe = await Recipe.create({
-        tittle,
+        title,
         image,
         summary,
-        health_score,
+        health_score: healthScore,
         steps,
       });
       await axios.get('http://localhost:3001/diets');
@@ -72,12 +73,13 @@ router.post('/', async (req, res) => {
         await recipe.addDiets(diets);
         const united = await recipe.getDiets();
         res.status(201).send(united);
-      } else res.status(201).send(`${tittle} has been correctly created`);
-    } catch (error) {
-      res.status(404).send(`There was an error ${error}`);
+      } else res.status(201).send(`${title} has been correctly created`);
+    } catch (err) {
+      if (err.errors[0].message) res.status(400).send(err.errors[0].message);
+      else res.status(400).send(err);
     }
   } else {
-    res.status(404).send(`There was an error`);
+    res.status(400).send(`There was an error`);
   }
 });
 // -----------------------------------------------------------------------
