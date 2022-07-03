@@ -2,7 +2,6 @@ const initialState = {
   onFilter: 0,
   recipes: [],
   fRecipes: [],
-  request: true,
   currentPage: 1,
 };
 
@@ -18,6 +17,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         fRecipes: [...state.recipes],
+        onFilter: state.onFilter + 1,
       };
     case 'updateRecipes':
       return {

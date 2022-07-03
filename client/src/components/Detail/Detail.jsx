@@ -1,17 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-// import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
 
 import './Detail.sass';
 
 function Detail({ id }) {
   const [recipe, setRecipe] = useState(null);
   const [recipes, setRecipes] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   // setRecipes(useSelector(state => state.recipes.recipes));
   useEffect(() => {
-    console.log(recipes);
     async function serverRequest() {
       try {
         const res = await axios.get('http://localhost:3001/filter/test');
@@ -20,12 +18,9 @@ function Detail({ id }) {
         console.log(`This is the error: ${err}`);
       }
     }
-    if (isLoading) {
-      serverRequest()
-      setIsLoading(!isLoading)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+    if (!recipes && !recipe) serverRequest()
+    else if (!recipe) setRecipe(recipes.find(recipe => recipe.id === Number(id)))
+  }, [recipes, recipe, id]);
   if (!recipe)
     return (
       <div>
@@ -34,14 +29,17 @@ function Detail({ id }) {
     );
   else
     return (
-      <li className="Detail">
-        <h1>{recipe.tittle}</h1>
-        <p>ID: {id}</p>
-        <p>{recipe.summary}</p>
-        <p>Health Score: {recipe.health_score}</p>
-        <p>Steps: {recipe.steps}</p>
-        <p>Diets: {recipe.diets.join(', ')}</p> */
-      </li>
+      <div>
+        <NavLink to='/home'>Home</NavLink>
+        <li className="Detail">
+          <h1>{recipe.title}</h1>
+          <p>ID: {id}</p>
+          <p>{recipe.summary}</p>
+          <p>Health Score: {recipe.health_score}</p>
+          <p>Steps: {recipe.steps}</p>
+          <p>Diets: {recipe.diets.join(', ')}</p>
+        </li>
+      </div>
     );
 }
 export default Detail;

@@ -10,7 +10,7 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
   // React
   const [filter, setFilter] = useState("default");
   const [order, setOrder] = useState("default");
-  const [inputData, setInputData] = useState(0);
+  const [inputData, setInputData] = useState('');
   const [pageNumbers, setPageNumbers] = useState([]);
   const [refresh, setRefresh] = useState(0);
   // Redux
@@ -23,18 +23,16 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
       pageNumbers.push(i);
     }
     setPageNumbers(pageNumbers);
-    if (filter === "default" && order === "default" && inputData === "default") resetOrFilBy()
+    if (filter === "default" && order === "default" && inputData === '') resetOrFilBy()
     else orFilBy(filter, order, inputData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalPosts, filter, order, refresh]);
-  const handleSubmit = () => setRefresh(refresh + 1)
-  const getData = e => setInputData(e.target.value);
+  }, [totalPosts, filter, order, refresh, inputData,]);
   const handleChangeOrder = e => setOrder(e.target.value);
   const handleChangeFilter = e => setFilter(e.target.value);
   const handleReset = () => {
     setFilter("default")
     setOrder("default")
-    setInputData(0)
+    setInputData('')
     setRefresh(refresh + 1)
   }
   if (loading) {
@@ -42,8 +40,7 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
   } else {
     return (
       <div className="PageNav">
-      <input type="text" value={inputData} onChange={e => getData(e)}></input>
-      <button onClick={() => handleSubmit()}>Search</button>
+      <input type="text" value={inputData} onChange={e => setInputData(e.target.value)}></input>
         <form>
           <select id="orders" onChange={e => handleChangeOrder(e)} value={order}>
             <option value="default">Order by</option>

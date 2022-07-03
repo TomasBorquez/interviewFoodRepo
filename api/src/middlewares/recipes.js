@@ -1,9 +1,9 @@
-// Our modules
-const { Router } = require('express');
-const { Recipe, Diet } = require('../db');
 // Libraries and such
+const { Router } = require('express');
 const axios = require('axios');
 const router = Router();
+// Our modules
+const { Recipe, Diet } = require('../db');
 
 // (--------{-------------[-({>>Requests get<<})-]-------------}-------)
 // ----- {Request get, gets the information about a recipe by id} ------
@@ -16,7 +16,6 @@ router.get('/:idRecipe', async (req, res) => {
           model: Diet,
         },
       });
-      // const response = await Recipe.findOne({ where: { recipe_id: idRecipe } });
       if (!response) res.status(404).send('Such recipe does not exist');
       else res.status(201).send(response);
     } else {
@@ -58,11 +57,11 @@ router.get('/', async (req, res) => {
 // (--------{--------------[-({>>Requests post<<})-]-------------}-------)
 // ------------ {Request post, adds a recipe on the datebase} ------------
 router.post('/', async (req, res) => {
-  const { name, image, summary, health_score, steps, diets } = req.body;
-  if (name && image && summary) {
+  const { tittle, image, summary, health_score, steps, diets } = req.body;
+  if (tittle && image && summary) {
     try {
       const recipe = await Recipe.create({
-        name,
+        tittle,
         image,
         summary,
         health_score,
@@ -73,7 +72,7 @@ router.post('/', async (req, res) => {
         await recipe.addDiets(diets);
         const united = await recipe.getDiets();
         res.status(201).send(united);
-      } else res.status(201).send(`${name} has been correctly created`);
+      } else res.status(201).send(`${tittle} has been correctly created`);
     } catch (error) {
       res.status(404).send(`There was an error ${error}`);
     }

@@ -1,14 +1,14 @@
 import { store } from '../store.js';
+import axios from 'axios';
 
-export function updateRecipes(payload) {
-  return function (dispatch) {
-    dispatch({ type: 'updateRecipes', payload });
-  };
-}
-
-export function updateState() {
-  return function (dispatch) {
-    dispatch({ type: 'updateState' });
+export function updateRecipes() {
+  return async function (dispatch) {
+    try {
+      const res = await axios.get('http://localhost:3001/filter/test');
+      dispatch({ type: 'updateRecipes', payload: res.data });
+    } catch (error) {
+      console.log(`Error: ${error}`)
+    }
   };
 }
 
@@ -21,8 +21,9 @@ export function updateCurrentPage(payload) {
   };
 }
 
-export function orFilBy(filter, sort, inputFilter) {
-  var recipes = store.getState().recipes.recipes, sortedArr;
+export function orFilBy(filter, sort, inputFilter, reset) {
+  var sortedArr
+  const recipes = [...store.getState().recipes.recipes]
   if (sort === 'A-Z') sortedArr = recipes.sort((a, b) => a.title.localeCompare(b.title));
   else if (sort === 'Z-A') sortedArr = recipes.sort((a, b) => b.title.localeCompare(a.title))
   else if (sort === 'H') sortedArr = recipes.sort((a, b) => b.healthScore - a.healthScore)
@@ -43,7 +44,9 @@ export function orFilBy(filter, sort, inputFilter) {
     else if (filter === 'Vegetarian') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase())) //??
     else if (filter === 'Whole30') sortedArr = sortedArr.filter(recipe => recipe.diets.includes('whole 30'))
     else if (filter === 'Dairy Free') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
-    if (inputFilter) sortedArr = sortedArr.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
+    if (inputFilter) { 
+      sortedArr = sortedArr.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
+    }
   } else {
     if (filter === 'Gluten Free') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
     else if (filter === 'Ovo-Vegetarian') sortedArr = recipes.filter(recipe => recipe.diets.includes('lacto ovo vegetarian'))
@@ -60,7 +63,9 @@ export function orFilBy(filter, sort, inputFilter) {
     else if (filter === 'Vegetarian') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase())) //??
     else if (filter === 'Whole30') sortedArr = recipes.filter(recipe => recipe.diets.includes('whole 30'))
     else if (filter === 'Dairy Free') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
-    if (inputFilter) sortedArr = recipes.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
+    if (inputFilter) { 
+      sortedArr = recipes.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
+    }
   }
   return function (dispatch) {
     if (sortedArr) {
