@@ -1,11 +1,12 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { NavLink } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
 import './Creator.sass';
 
 function Creator() {
+  const isValid = {}
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [healthScore, setHealthScore] = useState('');
@@ -13,33 +14,39 @@ function Creator() {
   const [steps, setSteps] = useState('');
   const [diets, setDiets] = useState([]);
   const [isPending, setisPending] = useState(false);
-  const [isValid, setisValid] = useState(false);
-  const [recipe, setRecipe] = useState({});
-  // useEffect(() => {
-  //   async function serverRequest() {
-  //     try {
-  //       await axios.get('http://localhost:3001/filter/test');
-  //     } catch (err) {
-  //       console.log(`This is the error: ${err}`);
-  //     }
-  //   }
-  // }, [recipe]);
   const dietsHandler = (checked, dietType) => {
     if (checked) setDiets([...diets, Number(dietType)]);
     else setDiets(diets.filter(diet => diet !== Number(dietType)));
   };
+  useEffect(() => {
+    if (!title.length) isValid.title = 'Title is required'
+    else delete isValid.title
+    if (!summary.length) isValid.summary = 'Summary is required'
+    else delete isValid.summary
+    if (!healthScore.length || isNaN(healthScore)) isValid.healthScore = 'Health score is required'
+    else delete isValid.healthScore
+    if (!image.length) isValid.image = 'Image is required'
+    else delete isValid.image
+    // console.log(Object.keys(isValid))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, summary, healthScore, image])
+  const handleErrors = () => {
+    for (let err in isValid) {
+      console.log(err);
+    } 
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // setRecipe({ title, summary, healthScore, image, steps, diets })
-    const res = { title, summary, healthScore, image, steps, diets }
+    const values = { title, summary, healthScore, image, steps, diets }
     try {
       setisPending(true)
-      const response = await axios.post('http://localhost:3001/recipes', res)
+      const response = await axios.post('http://localhost:3001/recipes', values)
       setisPending(false)
-      console.log(response.request.response);
+      console.log(response.request);
     } catch (error) {
       setisPending(false)
       console.log(error.response.data);
+      console.log(error);
     }
   }
   return (
@@ -161,6 +168,7 @@ function Creator() {
         <p>{steps}</p>
         <p>{diets}</p>
       </div>
+      {() => handleErrors()}
     </div>
   );
 }
