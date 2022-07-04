@@ -4,8 +4,18 @@ import axios from 'axios';
 export function updateRecipes() {
   return async function (dispatch) {
     try {
-      const res = await axios.get('http://localhost:3001/filter/test');
-      dispatch({ type: 'updateRecipes', payload: res.data });
+      const res = await axios.get('http://localhost:3001/recipes');
+      let responseCopy = res.data
+      for (let i in responseCopy) {
+        let diets = []
+        for (let k = 0; k < responseCopy[i].Diets.length; k++) {
+          diets.push(responseCopy[i].Diets[k].name)
+        }
+        delete responseCopy[i].Diets
+        responseCopy[i]["diets"] = diets
+      }
+      const res2 = await axios.get('http://localhost:3001/filter/test');
+      dispatch({ type: 'updateRecipes', payload: [...responseCopy, ...res2.data] });
     } catch (error) {
       console.log(`Error: ${error}`)
     }

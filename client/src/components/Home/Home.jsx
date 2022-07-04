@@ -22,7 +22,6 @@ function Home() {
     console.log(`I was here: ${counter}`);
     setCounter(counter + 1);
     if (counter === 0) {
-      console.log('i entered')
       updateRecipes();
       setLoading(!loading);
     }

@@ -27,11 +27,11 @@ router.get('/:idRecipe', async (req, res) => {
 });
 // --------------- {Request get, gets all the recipes} ---------------
 router.get('/', async (req, res) => {
-  const { name } = req.query;
+  const { title } = req.query;
   try {
-    if (name) {
+    if (title) {
       const response = await Recipe.findAll({
-        where: { name },
+        where: { title },
         include: {
           model: Diet,
         },
@@ -53,12 +53,10 @@ router.get('/', async (req, res) => {
 });
 // -----------------------------------------------------------------------
 
-
 // (--------{--------------[-({>>Requests post<<})-]-------------}-------)
 // ------------ {Request post, adds a recipe on the database} ------------
 router.post('/', async (req, res) => {
   const { title, image, summary, healthScore, steps, diets } = req.body;
-  // console.log(title, image, summary, healthScore, steps, diets)
   if (title && image && summary) {
     try {
       const recipe = await Recipe.create({

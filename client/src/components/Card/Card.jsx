@@ -7,7 +7,7 @@ function Card({id, title, image, diets}) {
     <li className='card'>
       <NavLink to={`/details/${id}`}>details</NavLink>
       <h1>{title}</h1>
-      <p>{diets.join(", ")}</p>
+      <p>{diets.length ? diets.join(", ") : "No diets"}</p>
       <img className='food' src={image} alt=""></img>
     </li>
   );

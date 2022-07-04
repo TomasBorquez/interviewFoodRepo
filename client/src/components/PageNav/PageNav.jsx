@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
 import * as actions from '../../state/actions/index.js';
@@ -39,7 +40,8 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
     return <div></div>;
   } else {
     return (
-      <div className="PageNav">
+      <div className="Nav">
+      <NavLink to='/create'>Create</NavLink>
       <input type="text" value={inputData} onChange={e => setInputData(e.target.value)}></input>
         <form>
           <select id="orders" onChange={e => handleChangeOrder(e)} value={order}>

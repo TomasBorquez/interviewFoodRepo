@@ -13,10 +13,10 @@ var merged = []
 // --------- {Request get, merges both database and api data} ----------
 router.get('/getall', async (req, res) => {
   try {
-    const response = await axios.get("http://localhost:3001/recipes")
+    const monke = await axios.get("http://localhost:3001/recipes")
     const response2 = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`)
-    // console.log(response2)
-    merged = [response.data.results, response2.data];
+    // console.log(response)
+    merged = [monke.data.results, response2.data];
     res.send(merged)
   } catch {
     axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`).then(result => {
@@ -26,6 +26,18 @@ router.get('/getall', async (req, res) => {
     });
   }
 });
+  // // Filtering diets
+  // let responseCopy = [...response]
+  // for (let i in responseCopy) {
+  //   let dietsArr = []
+  //   for (let k = 0; k < responseCopy[i].dataValues.Diets.length; k++) {
+  //     dietsArr.push(responseCopy[i].dataValues.Diets[k].dataValues.name)
+  //   }
+  //   responseCopy[i].dataValues.Diets = dietsArr
+  // }
+  // console.log(responseCopy[0].dataValues.Diets)
+  // console.log('we got here');
+  // res.send(responseCopy);
 // --------- {Request get, merges both database and api data} ----------
 router.get('/test', async (req, res) => {
   res.send(theboys)

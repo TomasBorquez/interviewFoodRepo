@@ -1,12 +1,19 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-// import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
 import './Creator.sass';
 
 function Creator() {
-  const isValid = {}
+  const initialState = {
+    title: 'Title is required',
+    summary: 'Summary is required',
+    healthScore: 'Health score is required',
+    image: 'Image is required',
+  };
+  const [isValid, setIsvalid] = useState(initialState);
+  const [isAllowed, setIsAllowed] = useState(false);
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [healthScore, setHealthScore] = useState('');
@@ -19,63 +26,80 @@ function Creator() {
     else setDiets(diets.filter(diet => diet !== Number(dietType)));
   };
   useEffect(() => {
-    if (!title.length) isValid.title = 'Title is required'
-    else delete isValid.title
-    if (!summary.length) isValid.summary = 'Summary is required'
-    else delete isValid.summary
-    if (!healthScore.length || isNaN(healthScore)) isValid.healthScore = 'Health score is required'
-    else delete isValid.healthScore
-    if (!image.length) isValid.image = 'Image is required'
-    else delete isValid.image
-    // console.log(Object.keys(isValid))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, summary, healthScore, image])
-  const handleErrors = () => {
-    for (let err in isValid) {
-      console.log(err);
-    } 
-  }
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const values = { title, summary, healthScore, image, steps, diets }
-    try {
-      setisPending(true)
-      const response = await axios.post('http://localhost:3001/recipes', values)
-      setisPending(false)
-      console.log(response.request);
-    } catch (error) {
-      setisPending(false)
-      console.log(error.response.data);
-      console.log(error);
+    // Assign possible errors
+    const isValidCopy = { ...isValid };
+    if (!title.length) isValidCopy.title = 'Title is required';
+    else delete isValidCopy.title;
+    if (!summary.length) isValidCopy.summary = 'Summary is required';
+    else delete isValidCopy.summary;
+    if (!healthScore.length || isNaN(healthScore)) isValidCopy.healthScore = 'Health score is required';
+    else delete isValidCopy.healthScore;
+    if (!image.length) isValidCopy.image = 'Image is required';
+    else delete isValidCopy.image;
+    setIsvalid(isValidCopy);
+    // Check if its valid
+    let counter = 0;
+    for (let err in isValidCopy) {
+      if (isValidCopy[err]) counter++;
     }
-  }
+    if (!counter) setIsAllowed(true);
+    else if (counter) setIsAllowed(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, summary, healthScore, image]);
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const values = { title, summary, healthScore, image, steps, diets };
+    try {
+      setisPending(true);
+      const response = await axios.post(
+        'http://localhost:3001/recipes',
+        values
+      );
+      setisPending(false);
+      console.log(response.request.statusText);
+    } catch (error) {
+      setisPending(false);
+      console.log(error.response.data);
+      // console.log(error);
+    }
+  };
+  const handleButton = () => {
+    if (!isPending && isAllowed) return <button>Submit</button>;
+    else if (isPending) return <button>Submitting...</button>;
+    else return <p>cant submit</p>;
+  };
   return (
     <div>
+      <NavLink to="/home">Home</NavLink>
       <form onSubmit={handleSubmit}>
         <label>Title: </label>
         <input
           type="text"
           value={title}
           onChange={e => setTitle(e.target.value)}
-        ></input>
+        ></input>{' '}
+        {isValid.title && <p>{isValid.title}</p>}
         <label>Summary: </label>
         <input
           type="text"
           value={summary}
           onChange={e => setSummary(e.target.value)}
-        ></input>
+        ></input>{' '}
+        {isValid.summary && <p>{isValid.summary}</p>}
         <label>Health Score: </label>
         <input
           type="number"
           value={healthScore}
           onChange={e => setHealthScore(e.target.value)}
-        ></input>
+        ></input>{' '}
+        {isValid.healthScore && <p>{isValid.healthScore}</p>}
         <label>Image: </label>
         <input
           type="text"
           value={image}
           onChange={e => setImage(e.target.value)}
-        ></input>
+        ></input>{' '}
+        {isValid.image && <p>{isValid.image}</p>}
         <label>Steps: </label>
         <textarea
           type="text"
@@ -157,18 +181,17 @@ function Creator() {
             onChange={e => dietsHandler(e.target.checked, e.target.name)}
           ></input>
         </div>
-        {!isPending ? <button>Submit</button> : <button>Submitting...</button>}
+        {handleButton()}
       </form>
       <div>
         <h1>Card</h1>
         <p>{title}</p>
         <p>{summary}</p>
         <p>{healthScore}</p>
-        <img src={image} alt=''></img>
+        <img src={image} alt=""></img>
         <p>{steps}</p>
         <p>{diets}</p>
       </div>
-      {() => handleErrors()}
     </div>
   );
 }
