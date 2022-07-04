@@ -8,6 +8,8 @@ export function updateRecipes() {
       let responseCopy = res.data
       for (let i in responseCopy) {
         let diets = []
+        responseCopy[i].healthScore = responseCopy[i].health_score
+        delete responseCopy[i].health_score
         for (let k = 0; k < responseCopy[i].Diets.length; k++) {
           diets.push(responseCopy[i].Diets[k].name)
         }
@@ -15,6 +17,16 @@ export function updateRecipes() {
         responseCopy[i]["diets"] = diets
       }
       const res2 = await axios.get('http://localhost:3001/filter/test');
+      let response2Copy = res2.data
+      for (let i in response2Copy) {
+        let steps = ''
+        if (response2Copy[i].analyzedInstructions[0]) {
+          for (let k = 0; k < response2Copy[i].analyzedInstructions[0].steps.length; k++) {
+            steps += response2Copy[i].analyzedInstructions[0].steps[k].step
+          }
+          response2Copy[i]["steps"] = steps
+        }
+      }
       dispatch({ type: 'updateRecipes', payload: [...responseCopy, ...res2.data] });
     } catch (error) {
       console.log(`Error: ${error}`)

@@ -12,6 +12,7 @@ function Creator() {
     healthScore: 'Health score is required',
     image: 'Image is required',
   };
+  const [serverResponse, setServerResponse] = useState('');
   const [isValid, setIsvalid] = useState(initialState);
   const [isAllowed, setIsAllowed] = useState(false);
   const [title, setTitle] = useState('');
@@ -56,11 +57,10 @@ function Creator() {
         values
       );
       setisPending(false);
-      console.log(response.request.statusText);
+      setServerResponse(response.request.statusText);
     } catch (error) {
       setisPending(false);
-      console.log(error.response.data);
-      // console.log(error);
+      setServerResponse(error.response.data);
     }
   };
   const handleButton = () => {
@@ -182,6 +182,7 @@ function Creator() {
           ></input>
         </div>
         {handleButton()}
+        <h2>{serverResponse}</h2>
       </form>
       <div>
         <h1>Card</h1>

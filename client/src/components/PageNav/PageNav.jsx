@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
+import light from '../../img/sun-512.png'
 import * as actions from '../../state/actions/index.js';
 import './PageNav.sass';
 
@@ -40,9 +41,20 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
     return <div></div>;
   } else {
     return (
-      <div className="Nav">
-      <NavLink to='/create'>Create</NavLink>
-      <input type="text" value={inputData} onChange={e => setInputData(e.target.value)}></input>
+      <div>
+      <nav id='nav'>
+        <NavLink to='' id='company'>
+          <div id='circle'></div>
+          <h1 id='myCompany'>My company</h1>
+        </NavLink>
+        <div id='end'>
+          <button id='lightSwitcher'><img id='light' src={light} alt=''></img></button>
+          <input placeholder='Search...' id='searchBar' type="text" value={inputData} onChange={e => setInputData(e.target.value)}></input>
+        </div>
+      </nav>
+      <NavLink id="create" to='/create'>+</NavLink>
+      <div id='form'>
+        <button id='resetButton' onClick={() => handleReset()}>Reset</button>
         <form>
           <select id="orders" onChange={e => handleChangeOrder(e)} value={order}>
             <option value="default">Order by</option>
@@ -67,31 +79,23 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
             <option value="Whole30">Whole30</option>
           </select>
         </form>
-        <button onClick={() => handleReset()}>Reset</button>
-        <p>{currentPage}</p>
-        <button onClick={() =>
-            currentPage > 1
-              ? updateCurrentPage('prev')
-              : console.log('Que estas haciendo? 🤔')
-          }>
-          Previous
-        </button>
-        <ul className="pagination">
-          {pageNumbers.map(number => {
-            return (
-              <li key={number} className="page-item">
-                <button onClick={() => updateCurrentPage(number)}> {number} </button>
-              </li>
-            );
-          })}
-        </ul>
-        <button onClick={() =>
-            currentPage !== Math.ceil(totalPosts / cardsPerPage)
-              ? updateCurrentPage('next')
-              : console.log('Que estas haciendo? 🤔')
-          }>
-          Next
-        </button>
+      </div>
+        <div className='navtop'>
+          {/* <p>{currentPage}</p> */}
+          <button className='bf-btn' onClick={() => currentPage > 1 ? updateCurrentPage('prev') : console.log('Que estas haciendo? 🤔')}> Prev </button>
+          <ul className="pagination">
+            {pageNumbers.map(number => {
+              return (
+                <li key={number}>
+                  <button className="page-number-buttons" onClick={() => updateCurrentPage(number)}> {number} </button>
+                </li>
+              );
+            })}
+          </ul>
+          <button className='bf-btn' onClick={() => currentPage !== Math.ceil(totalPosts / cardsPerPage) ? updateCurrentPage('next') : console.log('Que estas haciendo? 🤔')}>
+            Next
+          </button>
+        </div>
       </div>
     );
   }

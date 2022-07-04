@@ -7,6 +7,12 @@ import Salad from '../../img/salad.png'
 function Welcome() {
   return (
     <div>
+      <nav id='nav'>
+        <div id='company'>
+          <div id='circle'></div>
+          <h1 id='myCompany'>My company</h1>
+        </div>
+      </nav>
       <img src={Wave} id='wave' alt=''/>
       <img src={Salad} id='salad' alt=''/>
       <div id='line'></div>
