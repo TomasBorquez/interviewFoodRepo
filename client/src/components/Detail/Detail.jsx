@@ -11,7 +11,8 @@ function Detail({ id }) {
   useEffect(() => {
     async function serverRequest() {
       try {
-        const res = await axios.get('http://localhost:3001/filter/test');
+        const res = await axios.get('http://localhost:3001/recipes/stored');
+        console.log(recipes)
         // eslint-disable-next-line react-hooks/exhaustive-deps
         recipes = res.data;
       } catch (err) {
@@ -22,7 +23,9 @@ function Detail({ id }) {
       if (!recipes && !recipe) serverRequest()
       else if (!recipe) setRecipe(recipes.find(recipe => recipe.id === id))
     } else {
-      if (!recipes && !recipe) serverRequest()
+      if (!recipes.length && !recipe) {
+        serverRequest()
+      }
       else if (!recipe) setRecipe(recipes.find(recipe => recipe.id === Number(id)))
     }
   }, [recipes]);
@@ -43,6 +46,7 @@ function Detail({ id }) {
           <p>Health Score: {recipe.healthScore}</p>
           <p>Steps: {recipe.steps}</p>
           <p>Diets: {recipe.diets.join(', ')}</p>
+          <img src={recipe.image} alt=''></img>
         </li>
       </div>
     );

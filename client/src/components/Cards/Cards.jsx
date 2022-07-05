@@ -16,6 +16,24 @@ function Cards({ recipes, loading, cardsPerPage }) {
     return (
       <div>
         <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
+        <h1>Loading</h1>
       </div>
     );
   } else {
@@ -30,7 +48,7 @@ function Cards({ recipes, loading, cardsPerPage }) {
               title={recipe.title}
               image={recipe.image}
               summary={recipe.summary}
-              health_score={recipe.health_score}
+              healthScore={recipe.healthScore}
               steps={recipe.steps}
               diets={recipe.diets}
             />

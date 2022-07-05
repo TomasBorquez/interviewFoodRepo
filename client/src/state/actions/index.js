@@ -4,7 +4,7 @@ import axios from 'axios';
 export function updateRecipes() {
   return async function (dispatch) {
     try {
-      const res = await axios.get('http://localhost:3001/recipes');
+      const res = await axios.get('http://localhost:3001/recipes/database');
       let responseCopy = res.data
       for (let i in responseCopy) {
         let diets = []
@@ -16,8 +16,8 @@ export function updateRecipes() {
         delete responseCopy[i].Diets
         responseCopy[i]["diets"] = diets
       }
-      const res2 = await axios.get('http://localhost:3001/filter/test');
-      let response2Copy = res2.data
+      const res2 = await axios.get('http://localhost:3001/recipes/stored');
+      let response2Copy = res2.data.results
       for (let i in response2Copy) {
         let steps = ''
         if (response2Copy[i].analyzedInstructions[0]) {
@@ -27,9 +27,20 @@ export function updateRecipes() {
           response2Copy[i]["steps"] = steps
         }
       }
-      dispatch({ type: 'updateRecipes', payload: [...responseCopy, ...res2.data] });
+      dispatch({ type: 'updateRecipes', payload: [...responseCopy, ...response2Copy] });
     } catch (error) {
-      console.log(`Error: ${error}`)
+      const res2 = await axios.get('http://localhost:3001/recipes/stored');
+      let response2Copy = res2.data.results
+      for (let i in response2Copy) {
+        let steps = ''
+        if (response2Copy[i].analyzedInstructions[0]) {
+          for (let k = 0; k < response2Copy[i].analyzedInstructions[0].steps.length; k++) {
+            steps += response2Copy[i].analyzedInstructions[0].steps[k].step
+          }
+          response2Copy[i]["steps"] = steps
+        }
+      }
+      dispatch({ type: 'updateRecipes', payload: response2Copy });
     }
   };
 }

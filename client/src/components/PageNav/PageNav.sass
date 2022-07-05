@@ -1,6 +1,6 @@
 #nav
   width: 100%
-  background: #080808
+  background: var(--grayish_color)
   display: flex
   justify-content: space-between
 
@@ -25,7 +25,7 @@
   display: flex
   padding: 10px
   align-items: center
-  background: #a2b797
+  background: var(--yellowish_color)
   height: 100%
 
 #myCompany
@@ -43,7 +43,7 @@
   margin-right: 28px
 
 #lightSwitcher
-  background-color: #181818
+  background-color: #636363
   width: 40px
   height: 40px
   padding-top: 3.5px
@@ -71,7 +71,7 @@
   font-size: 16px
   font-weight: 600
   // Border stuff
-  background-color: #080808
+  background-color: var(--yellowish_color)
   border-radius: 5px
   width: 60px
   height: 32px
@@ -82,10 +82,10 @@
 
 #resetButton:hover
   // Border stuff
-  background-color: #161616
+  background-color: #c2a761
 
-select
-  background: #080808
+.decorated
+  background: var(--yellowish_color)
   font-size: 15px
   font-weight: 600
   border: none
@@ -98,12 +98,18 @@ select
   cursor: pointer
   margin-left: 5px
 
+.decorated:hover 
+  box-shadow: 0 0 10px 100px #c2a761 inset
+
+.decorated option:hover
+  box-shadow: 0 0 10px 100px #c2a761 inset
+
 .pagination
   display: flex
   flex-direction: row
 
 .navtop
-  background: #080808
+  background: var(--yellowish_color)
   position: fixed
   top: 96vh
   display: flex
@@ -116,7 +122,7 @@ select
   z-index: 100
 
 .page-number-buttons
-  background-color: #222222
+  background-color: var(--yellowish_color)
   color: white
   border: none
   width: 2.88vh
@@ -127,6 +133,21 @@ select
   font-size: 1.9vh
   font-weight: bolder
 
+.page-number-buttons-selected
+  background-color: #ae9556
+  color: white
+  border: none
+  width: 2.88vh
+  height: 2.88vh
+  margin-left: 0.269vh
+  margin-right: 0.269vh
+  border-radius: 20%
+  font-size: 1.9vh
+  font-weight: bolder
+
+.page-number-buttons:hover
+  background-color: #c2a761
+
 .bf-btn
   // Text stuff
   font-family: var(--font-roboto)
@@ -135,7 +156,7 @@ select
   font-size: 1.8vh
   font-weight: 500
   // Border stuff
-  background-color: #222222
+  background-color: var(--yellowish_color)
   border-radius: 0.70vh
   margin-left: 0.269vh
   margin-right: 0.269vh
@@ -148,7 +169,7 @@ select
 
 .bf-btn:hover
   // Border stuff
-  background-color: #222222
+  background-color: #c2a761
 
 #create
   position: fixed

@@ -56,14 +56,14 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
       <div id='form'>
         <button id='resetButton' onClick={() => handleReset()}>Reset</button>
         <form>
-          <select id="orders" onChange={e => handleChangeOrder(e)} value={order}>
+          <select id="orders" className='decorated' onChange={e => handleChangeOrder(e)} value={order}>
             <option value="default">Order by</option>
             <option value="A-Z">A-Z</option>
             <option value="Z-A">Z-A</option>
             <option value="H">Highest rating</option>
             <option value="L">Lowest rating</option>
           </select>
-          <select id="filters" onChange={e => handleChangeFilter(e)} value={filter}>
+          <select id="filters" className='decorated' onChange={e => handleChangeFilter(e)} value={filter}>
             <option value="default">Filter type</option>
             <option value="Gluten Free">Gluten Free</option>
             <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
@@ -87,7 +87,9 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
             {pageNumbers.map(number => {
               return (
                 <li key={number}>
-                  <button className="page-number-buttons" onClick={() => updateCurrentPage(number)}> {number} </button>
+                  {console.log('entre')}
+
+                  <button className={Number(currentPage) === Number(number) ? "page-number-buttons-selected" : "page-number-buttons"} onClick={() => updateCurrentPage(number)}> {number} </button>
                 </li>
               );
             })}

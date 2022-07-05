@@ -3,30 +3,38 @@ const { Router } = require('express');
 const axios = require('axios');
 const router = Router();
 // Our modules
+const { APIKEY } = process.env;
 const { Recipe, Diet } = require('../db');
 
+var information = undefined
+
 // (--------{-------------[-({>>Requests get<<})-]-------------}-------)
-// ----- {Request get, gets the information about a recipe by id} ------
-router.get('/:idRecipe', async (req, res) => {
-  const { idRecipe } = req.params;
+// --------- {Request get, merges both database and api data} ----------
+router.get('/api', async (req, res) => {
   try {
-    if (idRecipe) {
-      const response = await Recipe.findByPk(idRecipe, {
-        include: {
-          model: Diet,
-        },
-      });
-      if (!response) res.status(404).send('Such recipe does not exist');
-      else res.status(201).send(response);
-    } else {
-      res.status(404).send('No recipe id recieved');
-    }
+    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`)
+    res.send(response.data)
   } catch (err) {
-    res.status(404).send(err);
+    res.send(err);
+  }
+});
+// please work
+router.get('/stored', async (req, res) => {
+  try {
+    if (!information) {
+      const res1 = await axios.get("http://localhost:3001/recipes/api")
+      information = res1.data
+      res.send(res1.data)
+    } else {
+      console.log('we are just sending the info')
+      res.send(information)
+    }
+  } catch (error) {
+    res.status(404).send(error)
   }
 });
 // --------------- {Request get, gets all the recipes} ---------------
-router.get('/', async (req, res) => {
+router.get('/database', async (req, res) => {
   const { title } = req.query;
   try {
     if (title) {
@@ -48,7 +56,27 @@ router.get('/', async (req, res) => {
       else res.status(201).send(response);
     }
   } catch (error) {
+    console.log(error)
     res.status(404).send(error);
+  }
+});
+// ----- {Request get, gets the information about a recipe by id} ------
+router.get('/:idRecipe', async (req, res) => {
+  const { idRecipe } = req.params;
+  try {
+    if (idRecipe) {
+      const response = await Recipe.findByPk(idRecipe, {
+        include: {
+          model: Diet,
+        },
+      });
+      if (!response) res.status(404).send('Such recipe does not exist');
+      else res.status(201).send(response);
+    } else {
+      res.status(404).send('No recipe id recieved');
+    }
+  } catch (err) {
+    res.status(404).send(err);
   }
 });
 // -----------------------------------------------------------------------
@@ -94,3 +122,26 @@ module.exports = router;
 // [x] POST /recipes:
 // Recibe los datos recolectados desde el formulario controlado de la ruta de creación de recetas por body
 // Crea una receta en la base de datos relacionada con sus tipos de dietas.
+
+// -------------------- {Requests get, finds by id} --------------------
+// router.get('/:id', async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     if (/[a-zA-Z]/.test(id)) {
+//       const response = await axios.get("http://localhost:3001/recipes")
+//       // console.log(response)
+//       const findRecipe = response.data.find(recipe => recipe.id === id)
+//       if (!findRecipe) res.status(404).send('Such recipe does not exist');
+//       else res.status(201).send(findRecipe);
+//     } else if (id) {
+//       const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${APIKEY}&addRecipeInformation=true&number=100`)
+//       // console.log(response)
+//       const findRecipe = response.data.results.find(recipe => recipe.id === id)
+//       if (!findRecipe) res.status(404).send('Such recipe does not exist');
+//       else res.status(201).send(findRecipe);
+//     }
+//   } catch (err) {
+//     res.status(404).send(err);
+//   }
+// });
+// ---------------------------------------------------------------------
