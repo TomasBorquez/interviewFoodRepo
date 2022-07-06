@@ -3,14 +3,20 @@ import { NavLink } from 'react-router-dom';
 import './Welcome.sass'
 import Wave from '../../img/wave.png' 
 import Salad from '../../img/salad.png' 
+import light from '../../img/sun-512.png'
 
 function Welcome() {
   return (
     <div>
       <nav id='nav'>
+      <NavLink to=''>
         <div id='company'>
           <div id='circle'></div>
           <h1 id='myCompany'>My company</h1>
+        </div>
+      </NavLink>
+        <div id='lighter'>
+          <button id='lightSwitcherr'><img id='light' src={light} alt=''></img></button>
         </div>
       </nav>
       <img src={Wave} id='wave' alt=''/>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
+import light from '../../img/sun-512.png';
 import './Creator.sass';
 
 function Creator() {
@@ -70,7 +71,22 @@ function Creator() {
   };
   return (
     <div>
-      <NavLink to="/home">Home</NavLink>
+      <nav id="nav">
+        <NavLink to="/home" id="company">
+            <div id="circle"></div>
+            <h1 id="myCompany">My company</h1>
+          </NavLink>
+          <div id="lighter">
+            <button id="lightSwitcherr">
+            <img id="light" src={light} alt=""></img>
+          </button>
+        </div>
+      </nav>
+      <div className='create_recipe_text_container'>
+        <div id='create_recipe_text_container'>
+          <h1 id='create_recipe_text'>Create your own recipe!</h1>
+        </div>
+      </div>
       <form onSubmit={handleSubmit}>
         <label>Title: </label>
         <input

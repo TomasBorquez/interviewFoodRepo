@@ -14,14 +14,26 @@ function Card({id, title, image, diets, healthScore}) {
     }
     else return <div className='nDiet'>No diets</div>
   }
+  const handleHeart = () => {
+    if (healthScore < 40) return 'heart-red'
+    else if (healthScore < 60) return 'heart-orange'
+    else if (healthScore < 80) return 'heart-yellow'
+    else return 'heart-green'
+  }
+  const handleHealthScore = () => {
+    if (healthScore < 40) return 'healthScore-red'
+    else if (healthScore < 60) return 'healthScore-orange'
+    else if (healthScore < 80) return 'healthScore-yellow'
+    else return 'healthScore-green'
+  }
   return (
     <li className='card'>
       <h1 className="text-overflow-center" id='title'>{title}</h1>
       <img className='food' src={image} alt=""></img>
       <NavLink id='question_mark' to={`/details/${id}`}>?</NavLink>
       <div id='diets'>{handleDiets()}</div>
-      <p id='healthScore'>{healthScore}</p>
-      <img id='heart' src={heart} alt='heart'></img>
+      <p id={handleHealthScore()}>{healthScore}</p>
+      <img id={handleHeart()} src={heart} alt='heart'></img>
     </li>
   );
 }

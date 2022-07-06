@@ -38,7 +38,19 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
     setRefresh(refresh + 1)
   }
   if (loading) {
-    return <div></div>;
+    return (
+    <nav id="nav">
+      <NavLink to="/home" id="company">
+        <div id="circle"></div>
+        <h1 id="myCompany">My company</h1>
+      </NavLink>
+      <div id="lighter">
+        <button id="lightSwitcherr">
+          <img id="light" src={light} alt=""></img>
+        </button>
+      </div>
+    </nav>
+    );
   } else {
     return (
       <div>
@@ -87,8 +99,6 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
             {pageNumbers.map(number => {
               return (
                 <li key={number}>
-                  {console.log('entre')}
-
                   <button className={Number(currentPage) === Number(number) ? "page-number-buttons-selected" : "page-number-buttons"} onClick={() => updateCurrentPage(number)}> {number} </button>
                 </li>
               );

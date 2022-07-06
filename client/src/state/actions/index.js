@@ -19,10 +19,10 @@ export function updateRecipes() {
       const res2 = await axios.get('http://localhost:3001/recipes/stored');
       let response2Copy = res2.data.results
       for (let i in response2Copy) {
-        let steps = ''
+        let steps = []
         if (response2Copy[i].analyzedInstructions[0]) {
           for (let k = 0; k < response2Copy[i].analyzedInstructions[0].steps.length; k++) {
-            steps += response2Copy[i].analyzedInstructions[0].steps[k].step
+            steps.push(response2Copy[i].analyzedInstructions[0].steps[k].step)
           }
           response2Copy[i]["steps"] = steps
         }
