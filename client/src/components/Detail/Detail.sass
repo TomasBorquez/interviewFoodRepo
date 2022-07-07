@@ -1,19 +1,10 @@
+.center-me
+  margin-top: 20%
+  display: flex
+  justify-content: center
+  
 #nav
   height: 55px
-
-#detail
-  display: flex
-  align-content: center
-  align-content: flex-start
-  flex-direction: row
-  flex-wrap: wrap
-  justify-content: center
-  align-items: center
-  border-radius: 20px
-  // padding: 0px 20px 20px 20px
-  width: 700px
-  height: auto
-  background: var(--whiteish_color)
 
 #dietas
   display: flex
@@ -30,8 +21,19 @@
   object-position: center center
 
 #card1
-  margin-top: 37px
   display: flex
+  align-content: center
+  flex-direction: column
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+  border-radius: 20px
+  height: auto
+  background: var(--whiteish_color)
+  display: flex
+  margin-top: 37px
+  flex-direction: column
+  width: 700px
 
 #title1
   border-top-left-radius: 20px
@@ -41,7 +43,7 @@
   background: var(--grayish_color)
   color: white
   font-size: 27px
-  width: 120%
+  width: 100%
   justify-content: center
 
 #title2
@@ -69,10 +71,12 @@
   flex-wrap: wrap
   flex-direction: row
 
-#texto
-  padding: 10px
+.texto
+  padding: 0px 15px 3px 13px
+  text-align: justify
+  text-justify: inter-word
 
-#texto_rojo
+.texto_rojo
   display: flex
   justify-content: center
   border-bottom-left-radius: 20px
@@ -83,6 +87,12 @@
   background: #e19999
   font-size: 20px
   height: 300px
+
+.intro
+  font-weight: 600
+  font-size: 19px
+  display: flex 
+  justify-content: flex-start
 
 // ------- Heart types ---------
 #detail-heart-red

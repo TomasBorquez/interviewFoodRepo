@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import './Cards.sass';
 import Card from '../Card/Card.jsx';
+import spinner from '../../img/icons8-spinner-marco-5-90.png'
 
 function Cards({ recipes, loading, cardsPerPage }) {
   const [currentRecipes, setCurrentRecipes] = useState([]);
@@ -12,31 +13,12 @@ function Cards({ recipes, loading, cardsPerPage }) {
     const indexOfFirstCard = indexOfLastCard - cardsPerPage;
     setCurrentRecipes(recipes.slice(indexOfFirstCard, indexOfLastCard));
   }, [cardsPerPage, currentPage, recipes]);
-  if (loading) {
-    return (
-      <div>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-        <h1>Loading</h1>
-      </div>
-    );
-  } else {
+  if (loading) return(
+    <div id='spinner-container'>
+      <img src={spinner} id='spinner' alt=''></img>
+    </div>
+  )
+  else {
     return (
       <React.Fragment>
         <ol id="cards">

@@ -54,14 +54,16 @@ export function updateCurrentPage(payload) {
   };
 }
 
-export function orFilBy(filter, sort, inputFilter, reset) {
+export function orFilBy(filter, sort, inputFilter, folter) {
   var sortedArr
+  console.log(folter)
   const recipes = [...store.getState().recipes.recipes]
   if (sort === 'A-Z') sortedArr = recipes.sort((a, b) => a.title.localeCompare(b.title));
   else if (sort === 'Z-A') sortedArr = recipes.sort((a, b) => b.title.localeCompare(a.title))
   else if (sort === 'H') sortedArr = recipes.sort((a, b) => b.healthScore - a.healthScore)
   else if (sort === 'L') sortedArr = recipes.sort((a, b) => a.healthScore - b.healthScore)
   if (sortedArr) {
+    console.log('i entered to sorted');
     if (filter === 'Gluten Free') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
     else if (filter === 'Ovo-Vegetarian') sortedArr = sortedArr.filter(recipe => recipe.diets.includes('lacto ovo vegetarian'))
     else if (filter === 'Primal') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
@@ -77,9 +79,9 @@ export function orFilBy(filter, sort, inputFilter, reset) {
     else if (filter === 'Vegetarian') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase())) //??
     else if (filter === 'Whole30') sortedArr = sortedArr.filter(recipe => recipe.diets.includes('whole 30'))
     else if (filter === 'Dairy Free') sortedArr = sortedArr.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
-    if (inputFilter) { 
-      sortedArr = sortedArr.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
-    }
+    if (folter === 'API') sortedArr = sortedArr.filter(recipe => !/[a-zA-Z]/.test(recipe.id))
+    else if (folter === 'DB') sortedArr = sortedArr.filter(recipe => /[a-zA-Z]/.test(recipe.id))
+    if (inputFilter) sortedArr = sortedArr.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
   } else {
     if (filter === 'Gluten Free') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
     else if (filter === 'Ovo-Vegetarian') sortedArr = recipes.filter(recipe => recipe.diets.includes('lacto ovo vegetarian'))
@@ -96,6 +98,8 @@ export function orFilBy(filter, sort, inputFilter, reset) {
     else if (filter === 'Vegetarian') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase())) //??
     else if (filter === 'Whole30') sortedArr = recipes.filter(recipe => recipe.diets.includes('whole 30'))
     else if (filter === 'Dairy Free') sortedArr = recipes.filter(recipe => recipe.diets.includes(filter.toLowerCase()))
+    if (folter === 'API') sortedArr = recipes.filter(recipe => !/[a-zA-Z]/.test(recipe.id))
+    else if (folter === 'DB') sortedArr = recipes.filter(recipe => /[a-zA-Z]/.test(recipe.id))
     if (inputFilter) { 
       sortedArr = recipes.filter(recipe => recipe.title.toLowerCase().includes(inputFilter.toLowerCase()))
     }

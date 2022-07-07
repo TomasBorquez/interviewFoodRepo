@@ -12,6 +12,7 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
   // React
   const [filter, setFilter] = useState("default");
   const [order, setOrder] = useState("default");
+  const [folter, setFolter] = useState("default");
   const [inputData, setInputData] = useState('');
   const [pageNumbers, setPageNumbers] = useState([]);
   const [refresh, setRefresh] = useState(0);
@@ -25,15 +26,20 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
       pageNumbers.push(i);
     }
     setPageNumbers(pageNumbers);
-    if (filter === "default" && order === "default" && inputData === '') resetOrFilBy()
-    else orFilBy(filter, order, inputData)
+    if (filter === "default" && order === "default" && folter === "default" && inputData === '') resetOrFilBy()
+    else {
+      orFilBy(filter, order, inputData, folter)
+      updateCurrentPage(1)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalPosts, filter, order, refresh, inputData,]);
+  }, [totalPosts, filter, order, folter, refresh, inputData,]);
   const handleChangeOrder = e => setOrder(e.target.value);
   const handleChangeFilter = e => setFilter(e.target.value);
+  const handleChangeFolter = e => setFolter(e.target.value);
   const handleReset = () => {
     setFilter("default")
     setOrder("default")
+    setFolter("default")
     setInputData('')
     setRefresh(refresh + 1)
   }
@@ -90,10 +96,14 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
             <option value="Paleo">Paleo</option>
             <option value="Whole30">Whole30</option>
           </select>
+          <select id="orders" className='decorated' onChange={e => handleChangeFolter(e)} value={folter}>
+            <option value="default">All</option>
+            <option value="API">API</option>
+            <option value="DB">DB</option>
+          </select>
         </form>
       </div>
         <div className='navtop'>
-          {/* <p>{currentPage}</p> */}
           <button className='bf-btn' onClick={() => currentPage > 1 ? updateCurrentPage('prev') : console.log('Que estas haciendo? 🤔')}> Prev </button>
           <ul className="pagination">
             {pageNumbers.map(number => {

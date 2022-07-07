@@ -4,3 +4,25 @@
   grid-template-columns: repeat(3, 350px)
   grid-gap: 10px
   margin-bottom: 60px
+  height: 890px
+
+#spinner
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  animation: rotation 1.5s infinite linear
+  z-index: 100
+
+#spinner-container
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-top: 19.5%
+
+@keyframes rotation
+  from
+    transform: rotate(0deg)
+
+  to
+    transform: rotate(360deg)

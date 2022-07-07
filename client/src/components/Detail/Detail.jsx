@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import heart from '../../img/heart.svg'
-import * as actions from '../../state/actions/index.js';
+import spinner from '../../img/icons8-spinner-marco-5-90.png'
 import light from '../../img/sun-512.png';
+import * as actions from '../../state/actions/index.js';
 import './Detail.sass';
 
 function Detail({ id }) {
@@ -51,7 +52,7 @@ function Detail({ id }) {
   }
   const handleDiets = () => {
     if (recipe.diets.length) return recipe.diets.map((diet, i) => <div key={i} className='diet'>{diet}</div>)
-    else return <div className='nDiet'>No diets</div>
+    else return <div className='nDiet'>{'No diets :('}</div>
   }
   if (loading && !recipe) {
     return (
@@ -67,7 +68,9 @@ function Detail({ id }) {
             </button>
           </div>
         </nav>
-        <h1>Loading</h1>
+        <div id='spinner-container'>
+          <img src={spinner} id='spinner' alt=''></img>
+        </div>
       </div>
     );
   }
@@ -85,7 +88,9 @@ function Detail({ id }) {
             </button>
           </div>
         </nav>
-        <h1>404 page not found</h1>
+        <div className='center-me'>
+          <h1>404 page not found</h1>
+        </div>
       </div>
     );
   else
@@ -104,18 +109,18 @@ function Detail({ id }) {
         </nav>
         <div id='tuCards'>
           <div id='card1'>
-            <li id="detail">
               <p id={handleHealthScore()}>{recipe.healthScore}</p>
               <img id={handleHeart()} src={heart} alt='heart'></img>
               <h1 id='title1'>{recipe.title}</h1>
               <img id='img-detail' src={recipe.image} alt=""></img>
-              <div dangerouslySetInnerHTML={{ __html: recipe.summary }} />
+              <p className='intro'>Summary:</p>
+              <div className='texto' dangerouslySetInnerHTML={{ __html: recipe.summary }} />
+              <p className='intro'>Diets:</p>
               <div id='dietas'>{handleDiets()}</div>
-            </li>
           </div>
           <div id='card2'>
             <h1 id='title2'>Steps</h1>
-            <p id={recipe.steps ? 'texto' : 'texto_rojo'}>{recipe.steps || 'No steps...'}</p>
+            <p className={recipe.steps ? 'texto' : 'texto_rojo'}>{recipe.steps || 'No steps...'}</p>
           </div>
         </div>
       </div>
