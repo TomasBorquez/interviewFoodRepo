@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
+import Fish from '../../img/fish-8-64.png'
 import light from '../../img/sun-512.png'
 import * as actions from '../../state/actions/index.js';
 import './PageNav.sass';
@@ -47,8 +48,8 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
     return (
     <nav id="nav">
       <NavLink to="/home" id="company">
-        <div id="circle"></div>
-        <h1 id="myCompany">My company</h1>
+          <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
+          <h1 id='myCompany'>Limonada</h1>
       </NavLink>
       <div id="lighter">
         <button id="lightSwitcherr">
@@ -62,8 +63,8 @@ function PageNav({ loading, cardsPerPage, totalPosts }) {
       <div>
       <nav id='nav'>
         <NavLink to='' id='company'>
-          <div id='circle'></div>
-          <h1 id='myCompany'>My company</h1>
+          <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
+          <h1 id='myCompany'>Limonada</h1>
         </NavLink>
         <div id='end'>
           <button id='lightSwitcher'><img id='light' src={light} alt=''></img></button>

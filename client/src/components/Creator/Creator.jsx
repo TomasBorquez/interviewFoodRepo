@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
+import Fish from '../../img/fish-8-64.png'
 import light from '../../img/sun-512.png';
 import './Creator.sass';
 
@@ -116,8 +117,8 @@ function Creator() {
     <div>
       <nav id="nav">
         <NavLink to="/home" id="company">
-          <div id="circle"></div>
-          <h1 id="myCompany">My company</h1>
+          <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
+          <h1 id='myCompany'>Limonada</h1>
         </NavLink>
         <div id="lighter">
           <button id="lightSwitcherr">

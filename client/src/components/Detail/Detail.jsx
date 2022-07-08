@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Fish from '../../img/fish-8-64.png'
 import heart from '../../img/heart.svg'
 import spinner from '../../img/icons8-spinner-marco-5-90.png'
 import light from '../../img/sun-512.png';
@@ -59,8 +60,8 @@ function Detail({ id }) {
       <div>
         <nav id="nav">
           <NavLink to="/home" id="company">
-            <div id="circle"></div>
-            <h1 id="myCompany">My company</h1>
+            <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
+            <h1 id='myCompany'>Limonada</h1>
           </NavLink>
           <div id="lighter">
             <button id="lightSwitcherr">
@@ -79,8 +80,8 @@ function Detail({ id }) {
       <div>
         <nav id="nav">
           <NavLink to="/home" id="company">
-            <div id="circle"></div>
-            <h1 id="myCompany">My company</h1>
+            <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
+            <h1 id='myCompany'>Limonada</h1>
           </NavLink>
           <div id="lighter">
             <button id="lightSwitcherr">
@@ -98,8 +99,8 @@ function Detail({ id }) {
       <div>
         <nav id="nav">
           <NavLink to="/home" id="company">
-            <div id="circle"></div>
-            <h1 id="myCompany">My company</h1>
+            <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
+            <h1 id='myCompany'>Limonada</h1>
           </NavLink>
           <div id="lighter">
             <button id="lightSwitcherr">
