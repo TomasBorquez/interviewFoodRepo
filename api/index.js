@@ -21,10 +21,10 @@ const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const axios = require('axios')
 
-axios.defaults.baseURL = process.env.REACT_APP_API || 'http://localhost:3001';
+axios.defaults.baseURL = process.env.API || 'http://localhost:3001';
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   server.listen(process.env.PORT, () => {
     console.log(`(----------{ Server listening at port: ${process.env.PORT} }----------)`); // eslint-disable-line no-console
   });
