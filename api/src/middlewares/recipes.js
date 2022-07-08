@@ -22,7 +22,7 @@ router.get('/api', async (req, res) => {
 router.get('/stored', async (req, res) => {
   try {
     if (!information) {
-      const res1 = await axios.get("http://localhost:3001/recipes/api")
+      const res1 = await axios.get("/recipes/api")
       information = res1.data
       res.send(res1.data)
     } else {
@@ -94,7 +94,7 @@ router.post('/', async (req, res) => {
         health_score: healthScore,
         steps,
       });
-      await axios.get('http://localhost:3001/diets');
+      await axios.get('/diets');
       if (diets) {
         await recipe.addDiets(diets);
         const united = await recipe.getDiets();

@@ -89,7 +89,7 @@ function Creator() {
     try {
       setisPending(true);
       const response = await axios.post(
-        'http://localhost:3001/recipes',
+        '/recipes',
         values
       );
       setisPending(false);

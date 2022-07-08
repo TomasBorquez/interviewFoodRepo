@@ -4,7 +4,7 @@ import axios from 'axios';
 export function updateRecipes() {
   return async function (dispatch) {
     try {
-      const res = await axios.get('http://localhost:3001/recipes/database');
+      const res = await axios.get('/recipes/database');
       let responseCopy = res.data
       for (let i in responseCopy) {
         let diets = []
@@ -16,7 +16,7 @@ export function updateRecipes() {
         delete responseCopy[i].Diets
         responseCopy[i]["diets"] = diets
       }
-      const res2 = await axios.get('http://localhost:3001/recipes/stored');
+      const res2 = await axios.get('/recipes/stored');
       let response2Copy = res2.data.results
       for (let i in response2Copy) {
         let steps = []
@@ -29,7 +29,7 @@ export function updateRecipes() {
       }
       dispatch({ type: 'updateRecipes', payload: [...responseCopy, ...response2Copy] });
     } catch (error) {
-      const res2 = await axios.get('http://localhost:3001/recipes/stored');
+      const res2 = await axios.get('/recipes/stored');
       let response2Copy = res2.data.results
       for (let i in response2Copy) {
         let steps = ''
