@@ -109,52 +109,39 @@
   margin-bottom: 5px
 
 #submit-button
-  width: 250px
+  width: 200px
   height: 52px
   background-color: var(--yellowish_color)
   border: none
-  color: black
-  font-weight: 700
+  color: white
+  font-weight: 800
   padding: 10px 20px
   text-align: center
   text-decoration: none
-  display: inline-block
   border-radius: 15px
   font-size: 20px
-  box-shadow: rgb(0, 0, 0) 0px 0px 60px 2px
+  display: flex
+  align-items: center
+  justify-content: center
+  &:hover
+    transition: 0.3s
+    background: #70613a
 
-#submit-button:hover
-  background-color: #7e6c3d
-
-#submitting-button
-  width: 250px
+#unavailableButton
+  width: 200px
   height: 52px
-  background-color: #7e6c3d
+  background-color: #34343465
   border: none
-  color: black
+  color: white
   font-weight: 700
   padding: 10px 20px
   text-align: center
   text-decoration: none
-  display: inline-block
   border-radius: 15px
   font-size: 20px
-  box-shadow: rgb(0, 0, 0) 0px 0px 60px 2px
-
-#error-submit-button
-  width: 250px
-  height: 52px
-  background-color: #e1515165
-  border: none
-  color: black
-  font-weight: 700
-  padding: 10px 20px
-  text-align: center
-  text-decoration: none
-  display: inline-block
-  border-radius: 15px
-  font-size: 20px
-  box-shadow: rgb(0, 0, 0) 0px 0px 30px 2px
+  display: flex
+  align-items: center
+  justify-content: center
 
 #button-handler
   display: flex
@@ -223,8 +210,10 @@
   margin: 3px 3px 3px 3px
   border-radius: 8px
   border: none
-.activeDiet:hover
-  background: #4e8540
+  transition: 0.1s
+  &:hover
+    transition: 0.1s
+    background: #4e8540
 
 .inactiveDiet
   display: flex
@@ -238,6 +227,7 @@
   margin: 3px 3px 3px 3px
   border-radius: 8px
   border: none
-
-.inactiveDiet:hover
-  background: #6e3636
+  transition: 0.1s
+  &:hover
+    transition: 0.1s
+    background: #6e3636

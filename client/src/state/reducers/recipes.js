@@ -5,6 +5,7 @@ const initialState = {
   currentPage: 1,
 };
 
+// eslint-disable-next-line default-param-last
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'fakeRecipes':

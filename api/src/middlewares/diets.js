@@ -17,26 +17,14 @@ const defaultDiets = [
   { name: 'whole 30' },
 ];
 
-// Requests get
 router.get('/', async (req, res) => {
   try {
+    await Diet.bulkCreate(defaultDiets);
     const response = await Diet.findAll();
-    if (!response.length) {
-      Diet.bulkCreate(defaultDiets);
-      const response = await Diet.findAll();
-      // console.log(">> Had to create them");
-      res.status(201).send(response);
-    } else {
-      // console.log(">> They were already here");
-      res.status(201).send(response);
-    }
+    res.status(201).send(response);
   } catch (err) {
     res.status(404).send(err);
   }
 });
 
 module.exports = router;
-
-// [x] GET /diets:
-// Obtener todos los tipos de dieta posibles
-// En una primera instancia, cuando no exista ninguno, deberán precargar la base de datos con los tipos de datos indicados por spoonacular acá

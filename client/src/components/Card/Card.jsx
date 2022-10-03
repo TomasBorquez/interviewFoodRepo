@@ -1,62 +1,73 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './Card.sass';
 import heart from '../../img/heart.svg';
-// import defaultImage from '../../img/istockphoto-931643150-170667a.jpg';
 
-function Card({ id, title, image, diets, healthScore }) {
+function Card({
+  id, title, image, diets, healthScore,
+}) {
   const handleDiets = () => {
     if (diets.length) {
-      // eslint-disable-next-line array-callback-return
       return diets.map((diet, i) => {
-        if (i < 2)
+        if (i < 2) {
           return (
             <div key={i} className="diet">
               {diet}
             </div>
           );
-        else if (diets.length >= 3 && i === 2)
+        }
+        if (diets.length >= 3 && i === 2) {
           return (
             <div key={i} className="nDiet">
               ...
             </div>
           );
+        }
+        return null;
       });
-    } else return <div className="nDiet">{'No diets :('}</div>;
+    }
+    return <div className="nDiet"> No diets :( </div>;
   };
+
   const handleHeart = () => {
     if (healthScore < 40) return 'heart-red';
-    else if (healthScore < 60) return 'heart-orange';
-    else if (healthScore < 80) return 'heart-yellow';
-    else return 'heart-green';
+    if (healthScore < 60) return 'heart-orange';
+    if (healthScore < 80) return 'heart-yellow';
+    return 'heart-green';
   };
+
   const handleHealthScore = () => {
     if (healthScore < 40) return 'healthScore-red';
-    else if (healthScore < 60) return 'healthScore-orange';
-    else if (healthScore < 80) return 'healthScore-yellow';
-    else return 'healthScore-green';
+    if (healthScore < 60) return 'healthScore-orange';
+    if (healthScore < 80) return 'healthScore-yellow';
+    return 'healthScore-green';
   };
+
   return (
     <li className="card">
       <h1 className="text-overflow-center" id="title">
         {title}
       </h1>
-      <img
-        className="food"
-        src={image}
-        // onError={({ currentTarget }) => {
-        //   currentTarget.onerror = null; // prevents looping
-        //   currentTarget.src = { defaultImage };
-        // }}
-        alt=""
-      ></img>
-      <NavLink id="question_mark" to={`/details/${id}`}>
+      <img className="food" src={image} alt="" />
+      <Link id="question_mark" to={`/details/${id}`}>
         ?
-      </NavLink>
+      </Link>
       <div id="diets">{handleDiets()}</div>
       <p id={handleHealthScore()}>{healthScore}</p>
-      <img id={handleHeart()} src={heart} alt="heart"></img>
+      <img id={handleHeart()} src={heart} alt="heart" />
     </li>
   );
 }
+
+Card.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  title: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  diets: PropTypes.array.isRequired,
+  healthScore: PropTypes.number.isRequired,
+};
+
 export default Card;

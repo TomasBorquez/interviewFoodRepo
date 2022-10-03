@@ -1,0 +1,99 @@
+#form
+    position: fixed
+    display: flex
+    z-index: 100
+    width: 700px
+    top: 50%
+    left: 50%
+    margin-top: -175px
+    margin-left: -350px
+    border-radius: 20px
+    background: var(--whiteish_color)
+    margin-bottom: 20px
+    z-index: 200
+    flex-direction: column
+
+#formBody
+    padding-top: 10px
+    display: flex
+    flex-direction: column
+    align-items: center
+
+.former
+    display: flex
+    flex-direction: column
+    label
+        font-weight: 600
+        font-size: 16.5px
+    input
+        width: 600px
+        &:focus
+            outline: none
+
+#darker
+    position: fixed
+    background: #00000069
+    width: 100vw
+    height: 100vh
+    top: 0
+    left: 0
+    z-index: 200
+
+#title4
+    border-top-left-radius: 18px
+    border-top-right-radius: 18px
+    display: flex
+    padding-bottom: 3px
+    background: #9e9d9d
+    color: white
+    font-size: 27px
+    justify-content: center
+
+#submitButton
+    margin-bottom: 15px
+    border: none
+    background: #5a5a5a
+    color: white
+    font-weight: 600
+    font-size: 18px
+    letter-spacing: 1.5px
+    width: 150px
+    height: 45px
+    border-radius: 10px
+    transition: 0.3s
+    &:hover
+        transition: 0.3s
+        background: #2f2f2f
+    &:disabled
+        background: #a5a5a5
+        &:hover
+            background: #a5a5a5
+
+#starForm
+    margin-top: 5px
+    margin-bottom: 5px
+    display: flex
+    width: 600px
+    ul
+        margin-left: 10px
+    label
+        font-weight: 600
+        font-size: 16.5px
+
+.star
+    display: flex
+    align-items: center
+
+.stars
+    display: flex
+    flex-wrap: nowrap
+    li
+        button
+            background: none
+            border: none
+            font-size: 23px
+            margin-right: 1px
+            margin-left: 1px
+            &:hover
+                color: #323232
+                cursor: pointer

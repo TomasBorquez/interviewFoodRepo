@@ -1,126 +1,117 @@
+/* eslint-disable max-len */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
-import Fish from '../../img/fish-8-64.png'
-import light from '../../img/sun-512.png'
-import * as actions from '../../state/actions/index.js';
+import Fish from '../../img/fish-8-64.png';
+import * as actions from '../../state/actions/index';
+import diets from '../../diets.json';
 import './PageNav.sass';
 
+const filterDiets = () => diets.map((diet, i) => <option key={i} value={diet}>{diet}</option>);
+const filtersInitialState = {
+  filter: '',
+  order: '',
+  origin: '',
+  input: '',
+};
+
 function PageNav({ loading, cardsPerPage, totalPosts }) {
-  // React
-  const [filter, setFilter] = useState("default");
-  const [order, setOrder] = useState("default");
-  const [folter, setFolter] = useState("default");
-  const [inputData, setInputData] = useState('');
+  const [filters, setFilters] = useState(filtersInitialState);
   const [pageNumbers, setPageNumbers] = useState([]);
-  const [refresh, setRefresh] = useState(0);
   // Redux
   const dispatch = useDispatch();
   const { updateCurrentPage, orFilBy, resetOrFilBy } = bindActionCreators(actions, dispatch);
-  const currentPage = useSelector(state => state.recipes.currentPage);
+  const currentPage = useSelector((state) => state.recipes.currentPage);
+
   useEffect(() => {
-    const pageNumbers = [];
+    const pageNumbersTemp = [];
     for (let i = 1; i <= Math.ceil(totalPosts / cardsPerPage); i++) {
-      pageNumbers.push(i);
+      pageNumbersTemp.push(i);
     }
-    setPageNumbers(pageNumbers);
-    if (filter === "default" && order === "default" && folter === "default" && inputData === '') resetOrFilBy()
+    setPageNumbers(pageNumbersTemp);
+    if (!filters.filter.length && !filters.order.length && !filters.origin.length && !filters.input.length) resetOrFilBy();
     else {
-      orFilBy(filter, order, inputData, folter)
-      updateCurrentPage(1)
+      orFilBy(filters);
+      updateCurrentPage(1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalPosts, filter, order, folter, refresh, inputData,]);
-  const handleChangeOrder = e => setOrder(e.target.value);
-  const handleChangeFilter = e => setFilter(e.target.value);
-  const handleChangeFolter = e => setFolter(e.target.value);
-  const handleReset = () => {
-    setFilter("default")
-    setOrder("default")
-    setFolter("default")
-    setInputData('')
-    setRefresh(refresh + 1)
-  }
+  }, [filters.filter, filters.order, filters.origin, filters.input, totalPosts]);
+
+  const handleChange = (e, type) => setFilters({ ...filters, [type]: e.target.value });
+  const handleReset = () => setFilters(filtersInitialState);
+
   if (loading) {
     return (
-    <nav id="nav">
-      <NavLink to="/home" id="company">
-          <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
-          <h1 id='myCompany'>Limonada</h1>
-      </NavLink>
-      <div id="lighter">
-        <button id="lightSwitcherr">
-          <img id="light" src={light} alt=""></img>
-        </button>
-      </div>
-    </nav>
-    );
-  } else {
-    return (
-      <div>
-      <nav id='nav'>
-        <NavLink to='' id='company'>
-          <div id='circle'><img id='fish' src={Fish} alt='fish'></img></div>
-          <h1 id='myCompany'>Limonada</h1>
+      <nav id="nav">
+        <NavLink to="/home" id="company">
+          <div id="circle"><img id="fish" src={Fish} alt="fish" /></div>
+          <h1 id="myCompany">Limonada</h1>
         </NavLink>
-        <div id='end'>
-          <button id='lightSwitcher'><img id='light' src={light} alt=''></img></button>
-          <input placeholder='Search...' id='searchBar' type="text" value={inputData} onChange={e => setInputData(e.target.value)}></input>
+      </nav>
+    );
+  }
+
+  return (
+    <div>
+      <nav id="nav">
+        <NavLink to="" id="company">
+          <div id="circle"><img id="fish" src={Fish} alt="fish" /></div>
+          <h1 id="myCompany">Limonada</h1>
+        </NavLink>
+        <div id="end">
+          <input placeholder="Search..." id="searchBar" type="text" value={filters.input} onChange={(e) => handleChange(e, 'input')} />
         </div>
       </nav>
-      <NavLink id="create" to='/create'>+</NavLink>
-      <div id='form'>
-        <button id='resetButton' onClick={() => handleReset()}>Reset</button>
+      <NavLink id="create" to="/create">+</NavLink>
+      <div id="form">
+        <button id="resetButton" type="button" onClick={() => handleReset()}>Reset</button>
         <form>
-          <select id="orders" className='decorated' onChange={e => handleChangeOrder(e)} value={order}>
-            <option value="default">Order by</option>
+          <select id="orders" className="decorated" onChange={(e) => handleChange(e, 'order')} value={filters.order}>
+            <option value="">Order by</option>
             <option value="A-Z">A-Z</option>
             <option value="Z-A">Z-A</option>
             <option value="H">Highest rating</option>
             <option value="L">Lowest rating</option>
           </select>
-          <select id="filters" className='decorated' onChange={e => handleChangeFilter(e)} value={filter}>
-            <option value="default">Filter type</option>
-            <option value="Gluten Free">Gluten Free</option>
-            <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
-            <option value="Primal">Primal</option>
-            <option value="Ketogenic">Ketogenic</option>
-            <option value="Vegan">Vegan</option>
-            <option value="Dairy Free">Dairy Free</option>
-            <option value="Vegetarian">Vegetarian</option>
-            <option value="Pescetarian">Pescetarian</option>
-            <option value="Low FOODMAP">Low FOODMAP</option>
-            <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
-            <option value="Paleo">Paleo</option>
-            <option value="Whole30">Whole30</option>
+          <select id="filters" className="decorated" onChange={(e) => handleChange(e, 'filter')} value={filters.filter}>
+            <option value="">Filter type</option>
+            {filterDiets()}
           </select>
-          <select id="orders" className='decorated' onChange={e => handleChangeFolter(e)} value={folter}>
-            <option value="default">All</option>
+          <select id="orders" className="decorated" onChange={(e) => handleChange(e, 'origin')} value={origin}>
+            <option value="">All</option>
             <option value="API">API</option>
             <option value="DB">DB</option>
           </select>
         </form>
       </div>
-        <div className='navtop'>
-          <button className='bf-btn' onClick={() => currentPage > 1 ? updateCurrentPage('prev') : console.log('Que estas haciendo? 🤔')}> Prev </button>
-          <ul className="pagination">
-            {pageNumbers.map(number => {
-              return (
-                <li key={number}>
-                  <button className={Number(currentPage) === Number(number) ? "page-number-buttons-selected" : "page-number-buttons"} onClick={() => updateCurrentPage(number)}> {number} </button>
-                </li>
-              );
-            })}
-          </ul>
-          <button className='bf-btn' onClick={() => currentPage !== Math.ceil(totalPosts / cardsPerPage) ? updateCurrentPage('next') : console.log('Que estas haciendo? 🤔')}>
-            Next
-          </button>
-        </div>
+      <div className="navtop">
+        <button className="bf-btn" type="button" onClick={() => (currentPage > 1 && updateCurrentPage('prev'))}> Prev </button>
+        <ul className="pagination">
+          {pageNumbers.map((number) => (
+            <li key={number}>
+              <button type="button" className={Number(currentPage) === Number(number) ? 'page-number-buttons-selected' : 'page-number-buttons'} onClick={() => updateCurrentPage(number)}>
+                {number}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <button type="button" className="bf-btn" onClick={() => (currentPage !== Math.ceil(totalPosts / cardsPerPage) && updateCurrentPage('next'))}>
+          Next
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+PageNav.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  cardsPerPage: PropTypes.number.isRequired,
+  totalPosts: PropTypes.number.isRequired,
+};
+
 export default PageNav;
